@@ -228,6 +228,8 @@ ul {
   outline: 0;
   margin: 0;
   min-width: 100px;
+  letter-spacing: 3px;
+  word-spacing: 2px;
 }
 
 .main-title {
