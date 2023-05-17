@@ -8,9 +8,9 @@ function displayNoteItems(index) {
     for (let n = 0; n < noteItemsArray[index].length; n++) {
         noteItem += `<div class="item-list">
                     <li class="note-item pointer-mode note-item-transform no-space">
-                        <span id="text" spellcheck="false">${noteItemsArray[index][n]}</span>
-                        <hr id="line" color="whitesmoke" >
-                        <span id="date" contentEditable="false">Edited: ${dateString()} </span>
+                        <span class="text" spellcheck="false">${noteItemsArray[index][n]}</span>
+                        <hr class="line" color="whitesmoke" >
+                        <span class="date" contentEditable="false">Edited: ${noteDatesArray[index][n]} </span>
                     </li>
                     <div class="note-icons">
                     <i class="fas fa-edit" id="edit-icon" style="font-weight: 400;"></i>
@@ -45,8 +45,8 @@ function displayNoteContainer() {
                 <i class="hide fas fa-ellipsis-vertical"></i>
               </div>
               <div class="hide">
-                <p id="delete-column">Delete</p>
-                <p id="cancel-delete">Cancel</p>
+                <p class="delete-column">Delete</p>
+                <p class="cancel-delete">Cancel</p>
               </div>
             </div>
             <div class="note-content-scroll">
@@ -57,7 +57,7 @@ function displayNoteContainer() {
             <div>
               <form id="add-note-form" method="POST">
                 <input class="add-button button" type="text" name="note${i}" placeholder="+ Add Item">
-                <input class="save-button button" type="submit" value="Add">
+                <button class="save-button save-button-disable button">Add</button>
                 <div class="add-container">
                   <div class="add-item"></div>
                 </div>
@@ -91,11 +91,15 @@ addNoteForm.forEach((form, index) => {
     form.addEventListener("submit", (event) => {
         event.preventDefault();
         const inputValue = form.firstElementChild.value;
-        noteItemsArray[index].push(inputValue);
-        localStorage.setItem("items", JSON.stringify(noteItemsArray));
-        location.reload();
-
-
+        // Add a condition where you can only add an item if the add input is not empty or contains text
+        if (inputValue !== "") {
+            const dateValue = dateString();
+            noteItemsArray[index].push(inputValue);
+            noteDatesArray[index].push(dateValue);
+            localStorage.setItem("items", JSON.stringify(noteItemsArray));
+            localStorage.setItem("dates", JSON.stringify(noteDatesArray));
+            location.reload();
+        }
     });
 });
 
@@ -119,8 +123,10 @@ addNoteColumn.addEventListener("click", (event) => {
     event.preventDefault();
     noteHeadersArray.push("");
     noteItemsArray.push([]);
+    noteDatesArray.push([]);
     localStorage.setItem("headers", JSON.stringify(noteHeadersArray));
     localStorage.setItem("items", JSON.stringify(noteItemsArray));
+    localStorage.setItem("dates", JSON.stringify(noteDatesArray));
     location.reload();
 });
 
@@ -176,7 +182,7 @@ option.forEach((opt) => {
     });
 });
 
-const deleteColumn = document.querySelectorAll("#delete-column");
+const deleteColumn = document.querySelectorAll(".delete-column");
 deleteColumn.forEach((del, headerIndex) => {
     del.addEventListener("click", () => {
         noteHeadersArray.splice(headerIndex, 1);
@@ -188,16 +194,18 @@ deleteColumn.forEach((del, headerIndex) => {
         // Get the first index of the 2D Array in the local storage
         const itemsIndex = Array.from(noteColumnElements).indexOf(columnElement)
 
-        // Remove the Array of items in the itemsIndex in the local storage
+        // Remove the Array of items and dates in the itemsIndex in the local storage
         noteItemsArray.splice(itemsIndex, 1);
-        // Resave the arrays in the local storage and reload the current webpage
+        noteDatesArray.splice(itemsIndex, 1);
+        // Resave and reload the arrays in the local storage and reload the current webpage
         localStorage.setItem("headers", JSON.stringify(noteHeadersArray));
         localStorage.setItem("items", JSON.stringify(noteItemsArray));
+        localStorage.setItem("dates", JSON.stringify(noteDatesArray));
         location.reload();
     });
 });
 
-const cancelDelete = document.querySelectorAll("#cancel-delete");
+const cancelDelete = document.querySelectorAll(".cancel-delete");
 cancelDelete.forEach((opt) => {
     opt.addEventListener("click", () => {
         const headerOption = opt.parentElement;
@@ -231,8 +239,9 @@ editItem.forEach((item) => {
         // Get the second index of the 2D Array in the local storage
         const index2 = Array.from(itemListElements).indexOf(listElement);
 
-        // Update the text content of the note item element and the value of the items Array in the local storage using the indexes above  
+        // Update the text content, date below the text content of the note item element and the value of the items Array in the local storage using the indexes above  
         const noteContent = noteItemText.textContent;
+        const newDate = dateString();
 
         if (event.target.classList.contains("fa-edit")) {
             noteItemText.contentEditable = true;
@@ -260,7 +269,9 @@ editItem.forEach((item) => {
             noteItem.classList.remove("edit-mode");
 
             noteItemsArray[index1][index2] = noteContent;
+            noteDatesArray[index1][index2] = newDate;
             localStorage.setItem("items", JSON.stringify(noteItemsArray));
+            localStorage.setItem("dates", JSON.stringify(noteDatesArray));
             location.reload()
         } else if (event.target.classList.contains("fa-circle-xmark")) {
             editIcon.classList.add("fa-edit");
