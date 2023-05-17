@@ -271,7 +271,7 @@ ul {
   box-shadow: 4px 5px rgba(48, 44, 44, 0.6);
   border-radius: 1rem;
 }
-
+ ////
 .no-space {
   white-space: nowrap;
   text-overflow: ellipsis;
