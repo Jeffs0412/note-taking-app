@@ -545,12 +545,17 @@ ul {
   }
 
   .note-column {
-    margin: 10px;
-    padding: 0.2rem;
+    width: 100%;
+    margin: 1rem 0;
+    padding: 0.01rem;
   }
 
   .note-list {
     display: block;
+  }
+
+  .no-space {
+    height: 4rem;
   }
 
 }
