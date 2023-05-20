@@ -249,6 +249,7 @@ ul {
 }
 
 .note-item {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -261,7 +262,8 @@ ul {
   line-height: 1rem;
   padding: 1rem 1rem 0.5rem;
   max-height: fit-content;
-  height: min-content;
+  /* height: 6rem; */
+  height: fit-content;
   background-color: rgba(54, 45, 45, 0.6);
   background-image: linear-gradient(to right, rgba(124, 9, 170, 0.5), rgba(152, 112, 216, 0.5), rgba(129, 121, 12, 0.5));
 
@@ -279,35 +281,37 @@ ul {
 }
 
 .space {
+  box-sizing: border-box;
   word-wrap: break-word;
   overflow: hidden;
-  height: 90%;
+  height: fit-content;
+  height: 12rem;
   font-size: 2rem;
+  padding: 1rem 1rem 0.5rem;
 }
 
 .text {
-  height: 6rem;
-  letter-spacing: 2px;
+  height: 9rem;
   line-height: 1rem;
 }
 
 .text-space {
   width: 100%;
   outline: none;
+  letter-spacing: 2px;
   border: none;
   min-height: 70%;
-  max-height: 10rem;
+  max-height: 15rem;
   /* font-size: 10rem; */
-  font-size: 2rem;
   margin: 0 auto;
   /* background-color: green; */
   resize: none;
-  line-height: 1.5rem;
+  line-height: 1.45rem;
   color: whitesmoke;
   /* border-radius: 10px; */
   background-color: transparent;
   /* background-color: green; */
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-family: inherit;
   transition: all 0.30s ease-in-out;
   cursor: pointer;
@@ -335,7 +339,7 @@ ul {
 .date {
   display: flex;
   align-items: center;
-  
+  box-sizing: border-box;
   font-size: 0.8rem;
   padding-top: 0.5rem;
   width: 100%;
@@ -431,6 +435,7 @@ ul {
 }
 
 .add-note-form {
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -438,6 +443,7 @@ ul {
   align-items: center;
   margin: 0 0.5rem 1rem;
   text-align: center;
+  width: 100%;
 }
 
 .add-button {
@@ -538,11 +544,13 @@ ul {
     margin: 1rem;
   }
 
+  .note-column {
+    margin: 10px;
+    padding: 0.2rem;
+  }
+
   .note-list {
     display: block;
   }
 
-  .note-column {
-    margin: 10px;
-  }
 }
