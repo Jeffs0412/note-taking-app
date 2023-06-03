@@ -1,132 +1,43 @@
 const { createRoot } = ReactDOM;
-const { Fragment, useState, useEffect, useRef, createRef } = React;
+const { Fragment, useState, useEffect, useRef } = React;
 
-function MainHeader({ onAddColumn }) { // Parent Component: NoteDisplay Component
+function MainHeader({ onAddColumn }) {
   return (
     <Fragment>
       <header id="main">
         <h1 className="main-title">Note Taking App</h1>
       </header>
-      <div id="add-note-column" onClick={onAddColumn}> {/* This onAddColumn is located at the NoteDisplay Component */}
+      <div id="add-note-column" onClick={onAddColumn}>
         <i className="fa-solid fa-circle-plus"></i>
       </div>
     </Fragment>
   );
 }
 
-function NoteItems({ items, noteColumnIndex, saveNoteItem, onDeleteNoteItem }) {
-
-  
-  const [notes, setNotes] = useState(() => {
-    const storedNoteItems = localStorage.getItem("notes");
-  return storedNoteItems? JSON.parse(storedNoteItems) : [];
-});
-
-const [noteEdit, setNoteEdit] = useState(false);
-const noteItemRef = useRef(null);
-
-const editNote = () => {
-  setNoteEdit(true);
-  noteItemRef.current.contentEditable = true;
-  noteItemRef.current.focus();
-}
-
-const deleteNote =  () => {
-  setNoteEdit(prevNoteEdit => (!prevNoteEdit? true: false)); 
-  setNotes(prevNotes =>{
-    const updatedNotes = [...prevNotes];
-    updatedNotes[noteColumnIndex].noteItem;
-    return updatedNotes;
-  });
-}
-
-const saveNote = (itemIndex) => {
-  setNoteEdit(false);
-  noteItemRef.current.contentEditable = false;
-  const noteContent = noteItemRef.current.textContent;
-  setNotes(prevNotes => {
-    const newNotes = [...prevNotes];
-    newNotes[noteColumnIndex].noteItem[itemIndex].text = noteContent;
-    return newNotes;
-  });
-  window.location.reload();
-};
-
-const setCursorToEnd = (element) => {
-  const range = document.createRange();
-  const selection = window.getSelection();
-  range.selectNodeContents(element);
-  range.collapse(false);
-  selection.removeAllRanges();
-  selection.addRange(range);
-  noteItemRef.current.focus();
-}
-
-useEffect(() => {
-  if (noteEdit) {
-    noteItemRef.current.focus();
-    setCursorToEnd(noteItemRef.current);
-  }
-}, [noteEdit]);
-
-useEffect(() =>{
-  localStorage.setItem("notes", JSON.stringify(notes));
-}, [notes]);
-
-
-return (
-  items.map(({ text, date }, index) => (
-    <div className="item-list" key={`note-${index}`}>
+function NoteItems({ items }) {
+  return (
+    items.map(({ text, date }, index) => (
+      <div className="item-list" key={`note-${index}`}>
         <li className="note-item pointer-mode note-item-transform no-space">
-          <textarea className="text-space" spellCheck="false" ref={noteItemRef} contentEditable={noteEdit}>
+          <textarea className="text-space" spellCheck="false" disabled>
             {text}
           </textarea>
           <hr className="line" color="whitesmoke" />
           <span className="date" contentEditable="false">Edited: {date} </span>
         </li>
         <div className="note-icons">
-          <i className={`fas ${noteEdit? "fa-circle-check" : "fa-edit"}`} onClick={noteEdit? saveNote : editNote} id="edit-icon" style={{ fontWeight: 400 }}></i>
-          <i className={`fas ${noteEdit? "fa-circle-xmark" : "fa-trash"}`} onClick={deleteNote}   id="delete-icon"></i>
+          <i className="fas fa-edit" id="edit-icon" style={{ fontWeight: 400 }}></i>
+          <i className="fas fa-trash" id="delete-icon"></i>
         </div>
       </div>
     ))
   );
 }
 
-function NoteColumns({ notes, onHeaderChange, addColumn, onDeleteColumn, onAddNoteItem }) {
-  useEffect(() => {
-    localStorage.setItem("notes", JSON.stringify(notes)); // The passed notes array from the NotesDisplay component is an updated and parsed version and should be stringified and stored to update the local storage
-  }, [notes]); 
-
-  const handleDeleteColumn = (index) => {
-    onDeleteColumn(index);
-  };
-
-  return (
-    notes.map(({ noteHeader, noteItem }, columnIndex) => {
-      return (
-        <li className="note-column" key={`column-${columnIndex}`}>
-          <div className="header">
-            <NoteHeader header={noteHeader} onHeaderChange={(headerContent) => onHeaderChange(headerContent, columnIndex)} />
-            <HeaderOptionIcons index={columnIndex} onDeleteColumn={handleDeleteColumn} />
-          </div>
-          <div className="note-content-scroll">
-            <ul className="note-items-list">
-              <NoteItems items={noteItem} noteColumnIndex={columnIndex} />
-            </ul>
-          </div>
-          <div>
-            <NoteForm id={columnIndex} onAddNoteItem={(text, date) => onAddNoteItem(columnIndex, text, date)} /> {/* After passing the inputValue and currentDate from the NoteFrom component (now, as text and date), include the columnIndex. These data will be passed to the NoteDisplay component to be used in handleAddNoteItem functional state*/}
-          </div>
-        </li>
-      );
-    })
-  );
-}
 function NoteHeader({ header, onHeaderChange }) {
   const [headerEdit, setHeaderEdit] = useState(false);
   const noteRef = useRef(null);
-  
+
   const editHeader = () => {
     setHeaderEdit(true);
     noteRef.current.contentEditable = true;
@@ -240,37 +151,70 @@ function NoteForm({ id, onAddNoteItem }) {
   );
 }
 
+function NoteColumns({ notes, onHeaderChange, addColumn, onDeleteColumn, onAddNoteItem }) {
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
 
-function NoteDisplay() {
+  const handleDeleteColumn = (index) => {
+    onDeleteColumn(index);
+  };
+
+  return (
+    notes.map(({ noteHeader, noteItem }, columnIndex) => {
+      return (
+        <li className="note-column" key={`column-${columnIndex}`}>
+          <div className="header">
+            <NoteHeader header={noteHeader} onHeaderChange={(headerContent) => onHeaderChange(headerContent, columnIndex)} />
+            <HeaderOptionIcons index={columnIndex} onDeleteColumn={handleDeleteColumn} />
+          </div>
+          <div className="note-content-scroll">
+            <ul className="note-items-list">
+              <NoteItems items={noteItem} />
+            </ul>
+          </div>
+          <div>
+            <NoteForm id={columnIndex} onAddNoteItem={(text, date) => onAddNoteItem(columnIndex, text, date)} />
+          </div>
+        </li>
+      );
+    })
+  );
+}
+
+function NotesDisplay() {
   const [notes, setNotes] = useState(() => {
     const storedNotes = localStorage.getItem("notes");
-    return storedNotes ? JSON.parse(storedNotes) : [];
+    return storedNotes ? JSON.parse(storedNotes) : []; // Set the notes state equal to the array stored in the local storage
   });
 
-  const handleHeaderChange = (headerContent, columnIndex) => {
+  const handleHeaderChange = (headerContent, columnIndex) => { //Get the headerContent from the NoteHeader component and the columnIndex from the NoteColumns component
     setNotes(prevNotes => {
       const updatedNotes = [...prevNotes];
-      updatedNotes[columnIndex].noteHeader = headerContent;
-      return updatedNotes;
+      updatedNotes[columnIndex].noteHeader = headerContent; // Update the value of the noteHeader equal to the updated headerContent from the NoteHeader component
+      return updatedNotes; // Set the note state equal to the Updated Notes Array
     });
   };
 
-  const addColumn = () => {
+  // This state function will be used by the MainHeader child component
+  const addColumn = () => { 
     const newColumn = {
       noteHeader: "New Header",
       noteItem: []
     };
-    setNotes(prevNotes => [...prevNotes, newColumn]);
+    setNotes(prevNotes => [...prevNotes, newColumn]); // When the add-note-column element from the MainHeader is clicked, this addColumnFunction will be triggered and will update the notes state by adding a newColumn array of objects
   };
 
-  const handleDeleteColumn = (index) => {
+  // This state function will be used by the NoteColumns child component
+  const handleDeleteColumn = (index) => { 
     setNotes(prevNotes => {
       const updatedNotes = [...prevNotes];
       updatedNotes.splice(index, 1);
       return updatedNotes;
     });
   };
-
+  
+  // This state function will be used by the NoteColumns child component
   const handleAddNoteItem = (columnIndex, text, date) => {
     setNotes(prevNotes => {
       const updatedNotes = [...prevNotes];
@@ -290,11 +234,11 @@ function NoteDisplay() {
         <div className="note-div">
           <ul className="note-list">
             <NoteColumns
-              notes={notes}
-              onHeaderChange={handleHeaderChange}
+              notes={notes} // The notes state value is passed to the NoteColumns component
+              onHeaderChange={handleHeaderChange} 
               addColumn={addColumn}
               onDeleteColumn={handleDeleteColumn}
-              onAddNoteItem={handleAddNoteItem}
+              onAddNoteItem={handleAddNoteItem} // The columnIndex, text, and date is passed to the handleAddNoteItem to be used to add a new item
             />
           </ul>
         </div>
@@ -305,4 +249,5 @@ function NoteDisplay() {
 
 const main = document.querySelector("#whole");
 const mainContainer = createRoot(main);
-mainContainer.render(<NoteDisplay />);
+mainContainer.render(<NotesDisplay />);
+ 
