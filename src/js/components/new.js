@@ -62,6 +62,9 @@ const setCursorToEnd = (element) => {
   noteItemRef.current.focus();
 }
 
+const expandNote = () => {
+  setNoteEdit(prevNoteEdit => (!prevNoteEdit? true: false));
+}
 useEffect(() => {
   if (noteEdit) {
     noteItemRef.current.focus();
@@ -76,8 +79,8 @@ useEffect(() =>{
 
 return (
   items.map(({ text, date }, index) => (
-    <div className="item-list" key={`note-${index}`}>
-        <li className="note-item pointer-mode note-item-transform no-space">
+    <div className="item-list " key={`note-${index}`}>
+        <li className={`note-item pointer-mode note-item-transform ${noteEdit? "space" : "no-space"}`} onClick={expandNote} >
           <textarea className="text-space" spellCheck="false" ref={noteItemRef} contentEditable={noteEdit}>
             {text}
           </textarea>
