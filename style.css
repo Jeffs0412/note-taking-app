@@ -24,7 +24,7 @@ body {
   padding: 0;
   /* background-color: #DFDBE5; */
   /* background-image: linear-gradient(to right,rgba(224, 164, 226, 0.9), rgba(178, 180, 30, 0.9) ); */
-  background-image: url('../images/background.jpg');
+  background-image: url('./images/background.jpg');
   /* background-image: linear-gradient(to right, #8e26b8, #c970ec, #af6b49, #cf9530);  */
   background-size: cover;
   min-height: fit-content;
