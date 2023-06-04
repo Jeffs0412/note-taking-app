@@ -10,7 +10,7 @@ Check out the live demo of the project: [Note Taking App Demo](https://jeffs0412
 
 - **Add Note Column**: Click on the circle-plus icon to add a new Note Column.
 - **Delete Note**: Click on the ellipsis-vertical icon and then the delete button to remove a Note Column along with its contents.
-- **Add Note Item**: Type the text contents that you want on the input field and save it to add a new note item. 
+- **Add Note Item**: Type the text contents that you want on the input field and save it to add a new note item.
 - **Edit Note**: Click on the edit icon in the note text to edit the selected note item contents.
 
 ## Technologies Used
@@ -28,6 +28,8 @@ The app is built using HTML, CSS and JavaScript. Here's a brief overview of the 
 - **script.js**: Implements the functionality of the note-taking app.
 
 The app uses the Font Awesome library for icons.
+
+![Note Taking App](images/note-app1.png)
 
 ## Usage
 
