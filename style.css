@@ -58,10 +58,6 @@ ul {
   align-items: center;
   margin: 1rem auto;
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 767803c5f0e452a63e1a054fac434723bc1491c0
 #add-note-column {
   display: flex;
   justify-content: center;
@@ -596,14 +592,10 @@ footer {
   }
 
   .no-space {
-<<<<<<< HEAD
+
     height: 3.8rem;
   }
 
 }
-=======
-    height: 4rem;
-  }
+   
 
-}
->>>>>>> 767803c5f0e452a63e1a054fac434723bc1491c0
