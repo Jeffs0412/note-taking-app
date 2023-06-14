@@ -4,7 +4,23 @@ Welcome to the Note Taking App! This project allows you to create and manage not
 
 ## Live Demo
 
-Check out the live demo of the project: [Note Taking App Demo](https://jeffs0412.github.io/note-taking-app).
+Check out the live demo of the project: https://jeffs0412.github.io/note-taking-app
+
+## Installation
+
+To use the Note Taking App locally, you can follow these steps:
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/Jeffs0412/note-taking-app.git 
+   ```
+2. Navigate to the project directory:
+    ```bash
+    cd note-app
+    ```
+
+3. Open the `index.html` file in your preferred web browser.
 
 ## Features
 
