@@ -17,7 +17,7 @@ To use the Note Taking App locally, you can follow these steps:
    ```
 2. Navigate to the project directory:
     ```bash
-    cd note-app
+    cd note-taking-app
     ```
 
 3. Open the `index.html` file in your preferred web browser.
