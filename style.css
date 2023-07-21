@@ -115,11 +115,12 @@ ul {
 }
 
 .note-column {
-  align-self: flex-start;
+  /* align-self: flex-start; */
+  align-items: center;
   position: relative;
   width: fit-content;
   max-width: 30rem;
-  min-height: fit-content;
+  /* min-height: fit-content; */
   margin: 1rem;
   flex: 1;
   background-color: rgba(162, 76, 216, 0.6);
@@ -145,7 +146,7 @@ ul {
   justify-content: center;
   border-radius: 1rem;
   height: 3rem;
-  min-width: 24rem;
+  width: 24rem;
   margin-left: 1.5rem;
   padding: 1rem 1rem;
   background-image: linear-gradient(to right, rgba(10, 88, 71, 0.5), rgba(87, 82, 9, 0.5), rgba(105, 99, 14, 0.5));
@@ -575,18 +576,23 @@ footer {
 @media screen and (max-width: 640px) {
   body {
     overflow-y: auto;
+    align-items: center;
   }
   
   .note-container {
-    margin: 1rem;
+    width: auto;
   }
 
   .note-column {
-    width: 100%;
-    margin: 1rem 0;
+    height: auto;
+    width: 85%;
+    margin: 1rem auto;
     padding: 0.01rem;
   }
 
+  .note-header {
+    width: 100%;
+  }
   .note-list {
     display: block;
   }
