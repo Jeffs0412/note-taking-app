@@ -88,11 +88,9 @@ Feel free to explore the app and create, edit, and delete columns and notes as n
 
 The Note Taking App is still under development, and there are plans for future improvements. Some of the potential enhancements include:
 
-- Refactoring the app using React's component-based architecture for better organization and reusability of code. (Please note that the React version's code is located in the "react-version" folder, specifically in the file named "react.js".)
+- Refactoring the app using React's component-based architecture for better organization and reusability of code.
 - Introducing drag-and-drop functionality for easy reordering of notes.
 - Enhancing the user interface with more intuitive interactions and visual feedback.
-
-We welcome contributions and suggestions for these or other improvements. If you have any ideas, feel free to open an issue or submit a pull request.
 
 ## Contact
 
